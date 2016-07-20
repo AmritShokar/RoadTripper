@@ -1,1 +1,23 @@
 <p>This is the partial for view 1.</p>
+
+<!--<div ng-controller="View1Ctrl">-->
+<!--<div id="map"></div>
+<div id="capture"></div>-->
+<!--</div>-->
+<!--<div id="map-container" ng-controller="View1Ctrl">
+  <ng-map zoom="11" center="[40.74, -74.18]">
+    <marker position="[40.74, -74.18]" />
+    <shape name="circle" radius="400" center="[40.74,-74.18]" radius="4000" />
+    <control name="overviewMap" opened="true" />
+  </ng-map>
+</div>-->
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <p>Testing width of column</p>
+    </div>
+    <div class="col-md-8" ng-controller="View1Ctrl">
+      <div id="map"></div>
+    </div>
+  </div>
+</div>
