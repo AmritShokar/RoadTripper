@@ -13,10 +13,16 @@
 </div>-->
 <div class="container">
   <div class="row">
+    <!--<div class="col-md-4" ng-repeat="pointToAdd in pointsToAdd">-->
     <div class="col-md-4">
       <p>Testing width of column</p>
+      <input id="pac-input" class="controls" type="text" placeholder="Point A">
+      <input id="pac-input2" class="controls" type="text" placeholder="Point B" ng-model="pointToAdd">
+      <!--<input id="pac-input2" class="controls" type="text" placeholder="Point B">-->
+      <button ng-click="add(pointToAdd)">Add</button>
     </div>
     <div class="col-md-8" ng-controller="View1Ctrl">
+      <p>{{pointsToReach[0]}}</p>
       <div id="map"></div>
     </div>
   </div>
