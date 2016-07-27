@@ -192,10 +192,12 @@ angular.module('myApp.view1', ['ngRoute'])
 
     //$scope.pointsToAdd.splice(index, 1);
 
+    /*if($scope.pointsToReach.length == 0) {
+      $scope.pointsToReach.push(angular.copy(PointA))
+    }*/
     $scope.pointsToReach.push(angular.copy(pointToAdd))
 
     console.log($scope.pointsToReach[0]);
-
   }
 
 }]);
