@@ -20,6 +20,13 @@
       <input id="pac-input2" class="controls" type="text" placeholder="Point B" ng-model="pointToAdd">
       <!--<input id="pac-input2" class="controls" type="text" placeholder="Point B">-->
       <button ng-click="add(pointToAdd)">Add</button>
+      <br>
+      <div ng-controller="View1Ctrl">
+        <div ng-repeat="x in pointsToReachA" ng-model="pointsToReachA">
+          {{x}}
+        </div>
+      </div>
+
     </div>
     <div class="col-md-8" ng-controller="View1Ctrl">
 

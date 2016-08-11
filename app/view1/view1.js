@@ -2,6 +2,9 @@
 
 var PointA;
 var PointB;
+var PointAName;
+var PointBName;
+var DirectObject;
 
 angular.module('myApp.view1', ['ngRoute'])
 
@@ -12,7 +15,7 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl', ['$scope', function($scope) {
+.controller('View1Ctrl', ['$scope','$timeout', function($scope,$timeout) {
 
   //Init map
   var mapOptions = {
@@ -91,6 +94,7 @@ angular.module('myApp.view1', ['ngRoute'])
     //console.log(markers[0].position.lat() +" "+ markers[0].position.lng());
 
     PointA = new google.maps.LatLng(markers[0].position.lat(), markers[0].position.lng());
+    PointAName = markers[0].title;
 
     if (typeof PointB !== 'undefined') {
       // the variable is defined
@@ -154,6 +158,7 @@ angular.module('myApp.view1', ['ngRoute'])
     //console.log(markers[0].position.lat() +" "+ markers[0].position.lng());
 
     PointB = new google.maps.LatLng(markers2[0].position.lat(), markers2[0].position.lng());
+    PointBName = markers2[0].title;
 
     if (typeof PointA !== 'undefined') {
       // the variable is defined
@@ -175,6 +180,7 @@ angular.module('myApp.view1', ['ngRoute'])
     dirService.route(request, function(result, status) {
       if (status == google.maps.DirectionsStatus.OK) {
         dirRenderer.setDirections(result);
+        DirectObject = dirRenderer.getDirections();
       }
       else {
         //console.log("request object may not be correctly init");
@@ -184,7 +190,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
   }
 
-  $scope.pointsToReach = [];
+  $scope.pointsToReachA = [];
+  $scope.pointsToReachB = [];
+  $scope.pointsToReachDirect = [];
 
   $scope.add = function(pointToAdd) {
 
@@ -195,9 +203,16 @@ angular.module('myApp.view1', ['ngRoute'])
     /*if($scope.pointsToReach.length == 0) {
       $scope.pointsToReach.push(angular.copy(PointA))
     }*/
-    $scope.pointsToReach.push(angular.copy(pointToAdd))
+    /*$timeout(function() {
+      $scope.pointsToReach.push("yo")
+    }, 1000);*/
+    $scope.pointsToReachA.push(PointAName);
+    $scope.pointsToReachB.push(PointBName);
+    $scope.pointsToReachDirect.push(DirectObject);
 
-    console.log($scope.pointsToReach[0]);
+    console.log($scope.pointsToReachA[0]);
   }
+
+
 
 }]);
