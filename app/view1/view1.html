@@ -13,26 +13,31 @@
 </div>-->
 <div class="container">
   <div class="row">
-    <!--<div class="col-md-4" ng-repeat="pointToAdd in pointsToAdd">-->
-    <div class="col-md-4">
-      <p>Testing width of column</p>
-      <input id="pac-input" class="controls" type="text" placeholder="Point A">
-      <input id="pac-input2" class="controls" type="text" placeholder="Point B" ng-model="pointToAdd">
-      <!--<input id="pac-input2" class="controls" type="text" placeholder="Point B">-->
-      <button ng-click="add(pointToAdd)">Add</button>
-      <br>
-      <div ng-controller="View1Ctrl">
-        <div ng-repeat="x in pointsToReachA" ng-model="pointsToReachA">
-          {{x}}
-        </div>
+    <div ng-controller="View1Ctrl">
+      <!--<div class="col-md-4" ng-repeat="pointToAdd in pointsToAdd">-->
+      <div class="col-md-4">
+        <p>Testing width of column</p>
+
+          <input id="pac-input" class="controls" type="text" placeholder="Point A">
+          <input id="pac-input2" class="controls" type="text" placeholder="Point B">
+          <input id="pac-input3" class="controls" type="text" placeholder="Waypoints">
+          <button ng-click="addWaypoint()">add</button>
+          <br>
+            <div ng-repeat="x in waypointsDisplay">
+              {{x}}
+            </div>
+            <button ng-click="remove()">Remove</button>
+            <button ng-click="startMapping()">Render</button>
+            <div id="routeInfo">
+            </div>
+
       </div>
+      <div class="col-md-8">
 
-    </div>
-    <div class="col-md-8" ng-controller="View1Ctrl">
+        <!--<h1 ng-repeat="x in pointsToReach">{{x}}</h1>-->
 
-      <!--<h1 ng-repeat="x in pointsToReach">{{x}}</h1>-->
-
-      <div id="map"></div>
+        <div id="map"></div>
+      </div>
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ var PointB;
 var PointAName;
 var PointBName;
 var DirectObject;
+var waypointToAdd;
 
 angular.module('myApp.view1', ['ngRoute'])
 
@@ -36,11 +37,14 @@ angular.module('myApp.view1', ['ngRoute'])
   var searchBox = new google.maps.places.SearchBox(input);
   var input2 = document.getElementById('pac-input2');
   var searchBox2 = new google.maps.places.SearchBox(input2);
+  var input3 = document.getElementById('pac-input3');
+  var searchBox3 = new google.maps.places.SearchBox(input3);
 
   //Search box gets displays results biased towards search value
   map.addListener('bounds_changed', function() {
           searchBox.setBounds(map.getBounds());
           searchBox2.setBounds(map.getBounds());
+          searchBox3.setBounds(map.getBounds());
   });
 
   //SearchBox 1: Point A
@@ -61,6 +65,8 @@ angular.module('myApp.view1', ['ngRoute'])
 
     //For each place, get the icon, name, location
     var bounds = new google.maps.LatLngBounds();
+
+    var addressCompsA;
 
     places.forEach(function(place) {
       var icon = {
@@ -86,20 +92,21 @@ angular.module('myApp.view1', ['ngRoute'])
           bounds.extend(place.geometry.location);
         }
 
-
+        addressCompsA = place.formatted_address;
 
       });
     map.fitBounds(bounds);
 
     //console.log(markers[0].position.lat() +" "+ markers[0].position.lng());
 
-    PointA = new google.maps.LatLng(markers[0].position.lat(), markers[0].position.lng());
+    //PointA = new google.maps.LatLng(markers[0].position.lat(), markers[0].position.lng());
+    PointA = addressCompsA;
     PointAName = markers[0].title;
 
-    if (typeof PointB !== 'undefined') {
+    /*if (typeof PointB !== 'undefined') {
       // the variable is defined
       RenderRoute();
-    }
+    }*/
 
   });
 
@@ -126,6 +133,8 @@ angular.module('myApp.view1', ['ngRoute'])
     //For each place, get the icon, name, location
     var bounds2 = new google.maps.LatLngBounds();
 
+    var addressCompsB;
+
     places2.forEach(function(place) {
       var icon2 = {
         url: place.icon,
@@ -150,41 +159,91 @@ angular.module('myApp.view1', ['ngRoute'])
           bounds2.extend(place.geometry.location);
         }
 
-
+      addressCompsB = place.formatted_address;
 
       });
     map.fitBounds(bounds2);
 
     //console.log(markers[0].position.lat() +" "+ markers[0].position.lng());
 
-    PointB = new google.maps.LatLng(markers2[0].position.lat(), markers2[0].position.lng());
+    //PointB = new google.maps.LatLng(markers2[0].position.lat(), markers2[0].position.lng());
+    PointB = addressCompsB;
     PointBName = markers2[0].title;
-
-    if (typeof PointA !== 'undefined') {
+    //renderRoute();
+    /*if (typeof PointA !== 'undefined') {
       // the variable is defined
       RenderRoute();
-    }
+    }*/
 
   });
 
-  function RenderRoute() {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //Waypoint Additions
+
+  //SearchBox 3: Waypoints
+  //Places details of search query selection in places var
+  searchBox3.addListener('places_changed', function() {
+    var places3 = searchBox3.getPlaces();
+
+    if (places3.length == 0) {
+          return;
+    }
+
+    places3.forEach(function(place) {
+          waypointToAdd = place.formatted_address;
+    });
+
+  });
+
+var waypoints = [];
+$scope.waypointsDisplay = [];
+
+  $scope.addWaypoint = function() {
+    console.log("waypoint in");
+    $scope.waypointsDisplay.push({
+      waypointToAdd,
+    });
+    waypoints.push({
+      location: waypointToAdd,
+      stopover: true
+    });
+  }
+
+
+  $scope.startMapping = function() {
+    renderRoute();
+  }
+
+  //$scope.request;
+  //$scope.renderRoute = function() {
+  function renderRoute() {
+    console.log("Route rendered");
+    //console.log(PointA);
+    //console.log(PointB);
 
     var request = {
       //origin: markers[0].position.lat()+","+markers[0].position.lng(),
       origin: PointA,
       destination: PointB,
-      //waypoints: [{location:"48.12449,11.5536"}, {location:"48.12515,11.5569"}],
+      waypoints: waypoints,
+      optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.DRIVING
     };
 
     dirService.route(request, function(result, status) {
       if (status == google.maps.DirectionsStatus.OK) {
         dirRenderer.setDirections(result);
-        DirectObject = dirRenderer.getDirections();
+        //DirectObject = dirRenderer.getDirections();
+        // dirRenderer.setOptions({
+        //     directions: DirectObject
+        // });
+
+        //var str = JSON.stringify(DirectObject, null, 2); // spacing level = 2
+        //angular.element(routeInfo).html(str);
       }
       else {
-        //console.log("request object may not be correctly init");
-        //console.log(status);
+        console.log("request object may not be correctly init");
+        console.log(status);
       }
     });
 
@@ -193,9 +252,10 @@ angular.module('myApp.view1', ['ngRoute'])
   $scope.pointsToReachA = [];
   $scope.pointsToReachB = [];
   $scope.pointsToReachDirect = [];
+  $scope.subRoutes = [];
 
   $scope.add = function(pointToAdd) {
-
+    console.log("NOT EVER SEE THIS");
     //var index = $scope.pointsToAdd.indexOf(pointToAdd);
 
     //$scope.pointsToAdd.splice(index, 1);
@@ -206,13 +266,30 @@ angular.module('myApp.view1', ['ngRoute'])
     /*$timeout(function() {
       $scope.pointsToReach.push("yo")
     }, 1000);*/
-    $scope.pointsToReachA.push(PointAName);
-    $scope.pointsToReachB.push(PointBName);
-    $scope.pointsToReachDirect.push(DirectObject);
+    //$scope.pointsToReachA.push(PointAName);
+    //$scope.pointsToReachB.push(PointBName);
+    //$scope.pointsToReachDirect.push(DirectObject);
 
-    console.log($scope.pointsToReachA[0]);
+
+    //If subRoutes array already contains either origin or destination
+    //then do not add to array and throw error
+
+    var subRoute = {
+        origin: PointAName,
+        destination: PointBName,
+        directions: DirectObject
+    }
+
+    $scope.subRoutes.push(subRoute);
+
+    //console.log($scope.pointsToReachA[0]);
+    console.log(subRoute);
   }
 
+  $scope.remove = function() {
+    $scope.waypointsDisplay.pop();
+    waypoints.pop();
+  }
 
 
 }]);
