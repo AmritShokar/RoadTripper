@@ -16,7 +16,7 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl', ['$scope','$timeout', function($scope,$timeout) {
+.controller('View1Ctrl', ['$scope','$timeout','$http', function($scope,$timeout,$http) {
 
   //Init map
   var mapOptions = {
@@ -291,5 +291,17 @@ $scope.waypointsDisplay = [];
     waypoints.pop();
   }
 
+  $scope.testing = "change soon";
+  $scope.restfulAPI = function() {
+    var root = 'http://jsonplaceholder.typicode.com';
+    $http({
+        method : "GET",
+        url: root + "/posts/1"
+    }).then(function mySucces(response) {
+        $scope.testing = response.data;
+    }, function myError(response) {
+        $scope.testing = response.statusText;
+    });
+  }
 
 }]);
