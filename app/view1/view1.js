@@ -29,7 +29,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
   // init directions service
   var dirService = new google.maps.DirectionsService();
-  var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
+  var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: false});
   dirRenderer.setMap(map);
 
   //Search box init linked to pac-input text box
@@ -71,6 +71,7 @@ angular.module('myApp.view1', ['ngRoute'])
     places.forEach(function(place) {
       var icon = {
         url: place.icon,
+        //path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
@@ -78,12 +79,12 @@ angular.module('myApp.view1', ['ngRoute'])
       };
 
       // Create a marker for each place.
-      markers.push(new google.maps.Marker({
+      /*markers.push(new google.maps.Marker({
         map: map,
         icon: icon,
         title: place.name,
         position: place.geometry.location
-      }));
+      }));*/
 
       if (place.geometry.viewport) {
           // Only geocodes have viewport.
@@ -101,7 +102,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
     //PointA = new google.maps.LatLng(markers[0].position.lat(), markers[0].position.lng());
     PointA = addressCompsA;
-    PointAName = markers[0].title;
+    //PointAName = markers[0].title;
 
     /*if (typeof PointB !== 'undefined') {
       // the variable is defined
@@ -145,12 +146,12 @@ angular.module('myApp.view1', ['ngRoute'])
       };
 
       // Create a marker for each place.
-      markers2.push(new google.maps.Marker({
+      /*markers2.push(new google.maps.Marker({
         map: map,
         icon: icon2,
         title: place.name,
         position: place.geometry.location
-      }));
+      }));*/
 
       if (place.geometry.viewport) {
           // Only geocodes have viewport.
@@ -168,7 +169,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
     //PointB = new google.maps.LatLng(markers2[0].position.lat(), markers2[0].position.lng());
     PointB = addressCompsB;
-    PointBName = markers2[0].title;
+    //PointBName = markers2[0].title;
     //renderRoute();
     /*if (typeof PointA !== 'undefined') {
       // the variable is defined
